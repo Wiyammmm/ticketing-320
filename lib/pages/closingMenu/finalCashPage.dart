@@ -2211,7 +2211,7 @@ class _FinalCashPageState extends State<FinalCashPage> {
                                             type: ArtSweetAlertType.danger,
                                             title: "ERROR",
                                             text:
-                                                "SOMETHING WENT WRONG, PLEASE TRY AGAIN"));
+                                                "${isUpdateTortrip['messages'][0]['message']}"));
 
                                     return;
                                   }
@@ -2975,9 +2975,9 @@ class _FinalCashPageState extends State<FinalCashPage> {
                                   await Future.delayed(duration);
                                   if (isPrintDone) {
                                     // bool isUpdateClosing = true;
-                                    bool isUpdateClosing =
+                                    String? isUpdateClosing =
                                         await hiveService.updateClosing(true);
-                                    if (isUpdateClosing) {
+                                    if (isUpdateClosing == null) {
                                       Navigator.of(context).pop();
                                       Navigator.pushReplacement(
                                           context,
@@ -2991,7 +2991,7 @@ class _FinalCashPageState extends State<FinalCashPage> {
                                           artDialogArgs: ArtDialogArgs(
                                               type: ArtSweetAlertType.danger,
                                               title: "SOMETHING WENT WRONG",
-                                              text: "Please try again"));
+                                              text: "$isUpdateClosing"));
                                       return;
                                     }
                                     // _showDialogPrinting(
@@ -3142,9 +3142,9 @@ class _FinalCashPageState extends State<FinalCashPage> {
                             Expanded(
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  bool isUpdateClosing =
+                                  String? isUpdateClosing =
                                       await hiveService.updateClosing(true);
-                                  if (isUpdateClosing) {
+                                  if (isUpdateClosing == null) {
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
@@ -3157,7 +3157,7 @@ class _FinalCashPageState extends State<FinalCashPage> {
                                         artDialogArgs: ArtDialogArgs(
                                             type: ArtSweetAlertType.danger,
                                             title: "SOMETHING WENT WRONG",
-                                            text: "Please try again"));
+                                            text: "$isUpdateClosing"));
                                     return;
                                   }
                                 },

@@ -358,7 +358,7 @@ class HiveService {
     }
   }
 
-  Future<bool> updateClosing(bool isclose) async {
+  Future<String?> updateClosing(bool isclose) async {
     try {
       final storedData = _myBox.get('SESSION');
       storedData['isClosed'] = isclose;
@@ -366,10 +366,10 @@ class HiveService {
       final newstoredData = _myBox.get('SESSION');
 
       print('newstoredData: $newstoredData');
-      return true;
+      // return true;
     } catch (e) {
       print('error updateClosing: $e');
-      return false;
+      return '$e';
     }
   }
 

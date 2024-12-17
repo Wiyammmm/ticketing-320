@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dltb/backend/fetch/httprequest.dart';
 import 'package:hive/hive.dart';
 import 'dart:convert';
@@ -1327,34 +1326,58 @@ class fetchServices {
         return false;
       }
 
+      // List<Map<String, dynamic>> vehicleList = [];
+      // final vehicleListDB =
+      //     _myBox.get('vehicleListDB') as List<Map<String, dynamic>>;
+      // vehicleListDB.sort((a, b) => (int.parse(a["vehicle_no"].toString()))
+      //     .compareTo(int.parse(b["vehicle_no"].toString())));
+      // print('vehicleListDB: $vehicleListDB');
+      // print('vehicleListDB length: ${vehicleListDB.length}');
+      // int vehicleListIndex = 0;
+      // for (int i = 0; i < 10000; i++) {
+      //   String plateNumber = "";
+
+      //   try {
+      //     if (vehicleListDB[vehicleListIndex]['vehicle_no'].toString() ==
+      //         "${i + 1}") {
+      //       plateNumber =
+      //           vehicleListDB[vehicleListIndex]['plate_no'].toString();
+      //       vehicleListIndex++;
+      //     }
+      //   } catch (e) {
+      //     print('vehicleListDB error: $e');
+      //   }
+
+      //   vehicleList.add({
+      //     "_id": "${i + 1}",
+      //     'vehicle_no': "${i + 1}",
+      //     'plate_number': plateNumber
+      //   });
+      // }
+      // _myBox.put('vehicleList', vehicleList);
+
       List<Map<String, dynamic>> vehicleList = [];
       final vehicleListDB =
           _myBox.get('vehicleListDB') as List<Map<String, dynamic>>;
-      vehicleListDB.sort((a, b) => (int.parse(a["vehicle_no"].toString()))
-          .compareTo(int.parse(b["vehicle_no"].toString())));
-      print('vehicleListDB: $vehicleListDB');
-      print('vehicleListDB length: ${vehicleListDB.length}');
-      int vehicleListIndex = 0;
-      for (int i = 0; i < 10000; i++) {
-        String plateNumber = "";
 
-        try {
-          if (vehicleListDB[vehicleListIndex]['vehicle_no'].toString() ==
-              "${i + 1}") {
-            plateNumber =
-                vehicleListDB[vehicleListIndex]['plate_no'].toString();
-            vehicleListIndex++;
-          }
-        } catch (e) {
-          print('vehicleListDB error: $e');
-        }
+      // Create a map for quick lookup
+      final vehicleLookup = {
+        for (var vehicle in vehicleListDB)
+          vehicle['vehicle_no'].toString(): vehicle['plate_no'].toString()
+      };
 
+      // Build the vehicle list
+      for (int i = 1; i <= 10000; i++) {
+        String plateNumber =
+            vehicleLookup["$i"] ?? ""; // Check if vehicle_no exists in lookup
         vehicleList.add({
-          "_id": "${i + 1}",
-          'vehicle_no': "${i + 1}",
-          'plate_number': plateNumber
+          "_id": "$i",
+          'vehicle_no': "$i",
+          'plate_number': plateNumber,
         });
       }
+
+      // Store in the database
       _myBox.put('vehicleList', vehicleList);
 
       bool iscardList =
@@ -2468,9 +2491,13 @@ class fetchServices {
     var selectedRoute =
         routeList.where((route) => route['_id'].toString() == routeid).toList();
 
-    return selectedRoute != null
-        ? selectedRoute[0]['isNumeric'] as bool? ?? false
-        : false;
+    bool isNumeric = false;
+    try {
+      isNumeric = selectedRoute != null
+          ? selectedRoute[0]['isNumeric'] as bool? ?? false
+          : false;
+    } catch (e) {}
+    return isNumeric;
   }
 
   double roundToNearestQuarter(double number, minimumFare) {

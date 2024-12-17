@@ -110,6 +110,8 @@ class _ArrivalPageState extends State<ArrivalPage> {
     // });
 
     totalBaggageAmount = fetchService.totalBaggageperTrip();
+    totalPassengerAmount = fetchService.totalTripCashReceived() +
+        fetchService.totalTripCardSales();
 
     // totalPassengerAmount =
     //     torTicket.fold(0.0, (double accumulator, Map<String, dynamic> item) {
@@ -419,31 +421,36 @@ class _ArrivalPageState extends State<ArrivalPage> {
                                           .compareTo(last4DigitsB);
                                     });
                                     bool isprint =
-                                        await printService.printArrival(
-                                            torTicket.isNotEmpty
-                                                ? '${torTicket[0]['ticket_no']}'
-                                                : 'NO TICKET',
-                                            torTicket.isNotEmpty
-                                                ? '${torTicket[torTicket.length - 1]['ticket_no']}'
-                                                : 'NO TICKET',
+                                        await printService.printArrivalShortVer(
                                             totalpassengerCount,
-                                            totalBaggageCount,
-                                            // +
-                                            //     int.parse(fetchService
-                                            //         .totalPrepaidBaggageCountperTrip()
-                                            //         .toStringAsFixed(0)
-                                            //         ),
                                             totalPassengerAmount,
-                                            totalBaggageAmount,
-                                            torTrip.length,
-                                            vehicleNo,
-                                            conductorName,
-                                            driverName,
-                                            '${dispatcherData['firstName']} ${dispatcherData['middleName'] != '' ? dispatcherData['middleName'][0] : ''}. ${dispatcherData['lastName']} ${dispatcherData['nameSuffix']}',
-                                            route ?? '',
-                                            "${SESSION['torNo']}",
-                                            "${SESSION['tripType']}",
-                                            fetchService.totalTripExpenses());
+                                            "$vehicleNo",
+                                            torTrip.length);
+                                    // await printService.printArrival(
+                                    //     torTicket.isNotEmpty
+                                    //         ? '${torTicket[0]['ticket_no']}'
+                                    //         : 'NO TICKET',
+                                    //     torTicket.isNotEmpty
+                                    //         ? '${torTicket[torTicket.length - 1]['ticket_no']}'
+                                    //         : 'NO TICKET',
+                                    //     totalpassengerCount,
+                                    //     totalBaggageCount,
+                                    //     // +
+                                    //     //     int.parse(fetchService
+                                    //     //         .totalPrepaidBaggageCountperTrip()
+                                    //     //         .toStringAsFixed(0)
+                                    //     //         ),
+                                    //     totalPassengerAmount,
+                                    //     totalBaggageAmount,
+                                    //     torTrip.length,
+                                    //     vehicleNo,
+                                    //     conductorName,
+                                    //     driverName,
+                                    //     '${dispatcherData['firstName']} ${dispatcherData['middleName'] != '' ? dispatcherData['middleName'][0] : ''}. ${dispatcherData['lastName']} ${dispatcherData['nameSuffix']}',
+                                    //     route ?? '',
+                                    //     "${SESSION['torNo']}",
+                                    //     "${SESSION['tripType']}",
+                                    //     fetchService.totalTripExpenses());
                                     if (isprint) {
                                       var removedcashCardInfo =
                                           SESSION.remove('cashCardInfo');

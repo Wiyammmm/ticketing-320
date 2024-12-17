@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 2.2.7+26
+version: 2.2.14+33
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -44,11 +44,8 @@ dependencies:
   esc_pos_printer: ^4.1.0
   flutter:
     sdk: flutter
-  flutter_blue: ^0.8.0
-  flutter_device_identifier: ^0.0.1
   flutter_easyloading: ^3.0.5
   flutter_launcher_icons: ^0.11.0
-  flutter_local_notifications: ^16.2.0
   flutter_nfc_kit: 3.3.1
   flutter_typeahead: ^5.0.2
   geolocator: ^10.1.0
@@ -67,9 +64,10 @@ dependencies:
   restart_app: ^1.2.1
   simnumber: ^0.0.12
   simple_animation_progress_bar: ^1.6.0
+  telpo_flutter_sdk: ^0.1.1
   toggle_switch: ^2.1.0
-  unique_identifier: ^0.3.0
   uuid: 3.0.7
+  get: 4.6.6
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:

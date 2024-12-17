@@ -15,6 +15,7 @@ import 'package:dltb/pages/ticketingMenu/ticketingPage.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 import 'package:hive/hive.dart';
 import 'package:location/location.dart';
@@ -24,7 +25,7 @@ import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class FirstPage extends StatefulWidget {
-  const FirstPage({super.key});
+  FirstPage({super.key});
 
   @override
   State<FirstPage> createState() => _FirstPageState();
@@ -40,7 +41,7 @@ class _FirstPageState extends State<FirstPage> {
     controlFinishRefresh: true,
     controlFinishLoad: true,
   );
-  PrinterController connectToPrinter = PrinterController();
+  PrinterController connectToPrinter = Get.put(PrinterController());
 
   double progressbar = 0.5;
   String progressText = 'fetching data...';

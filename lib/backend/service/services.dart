@@ -7,6 +7,15 @@ class timeServices {
     return formattedDate;
   }
 
+  String converterDate(String date) {
+    final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss.SSSSSS');
+    final parsedDate = dateFormat.parse(date);
+
+    final outputFormat =
+        DateFormat('MMM-dd-yyyy HH:mm:ss'); // Desired output format
+    return outputFormat.format(parsedDate);
+  }
+
   Future<String> dateofTrip() async {
     DateTime datenow = DateTime.now();
 

@@ -725,14 +725,16 @@ class httprequestService {
       //   "amount": amount
       // };
 
-      final responseMastercard = await http.post(
-        Uri.parse(apiUrl),
-        headers: {
-          'Authorization': 'Bearer $bearerToken',
-          'Content-Type': 'application/json'
-        },
-        body: jsonEncode(item),
-      );
+      final responseMastercard = await http
+          .post(
+            Uri.parse(apiUrl),
+            headers: {
+              'Authorization': 'Bearer $bearerToken',
+              'Content-Type': 'application/json'
+            },
+            body: jsonEncode(item),
+          )
+          .timeout(Duration(seconds: 30));
       // ;
 // .timeout(Duration(seconds: 10));
       print('sendtocketTicket Raw Response: ${responseMastercard.body}');
@@ -816,6 +818,7 @@ class httprequestService {
       }
     } catch (e) {
       print("updateTorTrip: $e");
+      updateTorTrip['messages'][0]['message'] = '$e';
       return updateTorTrip;
     }
   }

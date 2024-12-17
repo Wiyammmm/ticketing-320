@@ -916,108 +916,98 @@ class _TicketingPageState extends State<TicketingPage> {
             if (selectedPaymentMethod == 4) {
               mop = "TRIPKO CARD";
             }
-            try {
-              printService.printTicket(
-                  ticketNo,
-                  typeCard,
-                  coopData['coopType'] != "Bus"
-                      ? fetchservice.roundToNearestQuarter(price, minimumFare)
-                      : price,
-                  coopData['coopType'] != "Bus"
-                      ? fetchService.roundToNearestQuarter(
-                          (fetchservice.roundToNearestQuarter(
-                                      price, minimumFare) -
-                                  discount) *
-                              quantity,
-                          minimumFare)
-                      : ((price - discount) * quantity).toDouble(),
-                  double.parse(kmRun),
-                  '${stations[currentStationIndex]['stationName']}',
-                  '$selectedStationName',
-                  passengerType,
-                  isDiscounted,
-                  coopData['coopType'] != "Bus"
-                      ? "${torTrip[sessionBox['currentTripIndex']]['bus_no']}:${torTrip[sessionBox['currentTripIndex']]['plate_number']} "
-                      : "${torTrip[sessionBox['currentTripIndex']]['bus_no']}",
-                  stations[currentStationIndex][stationkm].toString(),
-                  toKM.toString(),
-                  "${torTrip[sessionBox['currentTripIndex']]['route']}",
-                  discountPercent,
-                  quantity,
-                  newBalance,
-                  "${cardData?.isNotEmpty ?? false ? cardData![0]['sNo'] : ""}",
-                  "${idNumController.text}",
-                  "$mop",
-                  typeCard != "mastercard"
-                      ? int.parse(
-                          "${isSendTorTicket['response']['totalRides']}")
-                      : 0);
-            } catch (e) {
-              printService.printTicket(
-                  ticketNo,
-                  typeCard,
-                  coopData['coopType'] != "Bus"
-                      ? fetchservice.roundToNearestQuarter(price, minimumFare)
-                      : price,
-                  coopData['coopType'] != "Bus"
-                      ? fetchService.roundToNearestQuarter(
-                          (fetchservice.roundToNearestQuarter(
-                                      price, minimumFare) -
-                                  discount) *
-                              quantity,
-                          minimumFare)
-                      : ((price - discount) * quantity).toDouble(),
-                  double.parse(kmRun),
-                  '${stations[currentStationIndex]['stationName']}',
-                  '$selectedStationName',
-                  passengerType,
-                  isDiscounted,
-                  coopData['coopType'] != "Bus"
-                      ? "${torTrip[sessionBox['currentTripIndex']]['bus_no']}:${torTrip[sessionBox['currentTripIndex']]['plate_number']} "
-                      : "${torTrip[sessionBox['currentTripIndex']]['bus_no']}",
-                  stations[currentStationIndex][stationkm].toString(),
-                  toKM.toString(),
-                  "${torTrip[sessionBox['currentTripIndex']]['route']}",
-                  discountPercent,
-                  quantity,
-                  newBalance,
-                  "${cardData?.isNotEmpty ?? false ? cardData![0]['sNo'] : ""}",
-                  "${idNumController.text}",
-                  "$mop");
-            }
-          }
-          Navigator.of(context).pop();
 
-          double baggageprice = 0;
-          try {
-            baggageprice = double.parse(baggagePrice.text);
-          } catch (e) {
-            print(e);
-          }
-          if (baggageprice > 0) {
-            // ArtSweetAlert.show(
-            //         context: context,
-            //         barrierDismissible: false,
-            //         artDialogArgs: ArtDialogArgs(
-            //             type: ArtSweetAlertType.info,
-            //             title: "BAGGAGE RECEIPT",
-            //             text: "CLICK OK TO PRINT"))
-            //     .then((alertResult) {
-
-            // });
-            printService.printBaggage(
+            printService.printTicket(
                 ticketNo,
                 typeCard,
-                double.parse(baggagePrice.text),
+                coopData['coopType'] != "Bus"
+                    ? fetchservice.roundToNearestQuarter(price, minimumFare)
+                    : price,
+                coopData['coopType'] != "Bus"
+                    ? fetchService.roundToNearestQuarter(
+                        (fetchservice.roundToNearestQuarter(
+                                    price, minimumFare) -
+                                discount) *
+                            quantity,
+                        minimumFare)
+                    : ((price - discount) * quantity).toDouble(),
                 double.parse(kmRun),
                 '${stations[currentStationIndex]['stationName']}',
                 '$selectedStationName',
+                passengerType,
+                isDiscounted,
                 coopData['coopType'] != "Bus"
                     ? "${torTrip[sessionBox['currentTripIndex']]['bus_no']}:${torTrip[sessionBox['currentTripIndex']]['plate_number']} "
                     : "${torTrip[sessionBox['currentTripIndex']]['bus_no']}",
                 stations[currentStationIndex][stationkm].toString(),
                 toKM.toString(),
-                "${torTrip[sessionBox['currentTripIndex']]['route']}");
+                "${torTrip[sessionBox['currentTripIndex']]['route']}",
+                discountPercent,
+                quantity,
+                newBalance,
+                "${cardData?.isNotEmpty ?? false ? cardData![0]['sNo'] : ""}",
+                "${idNumController.text}",
+                "$mop");
+          }
+          Navigator.of(context).pop();
+          ArtSweetAlert.show(
+                  context: context,
+                  artDialogArgs: ArtDialogArgs(
+                      type: ArtSweetAlertType.success,
+                      title: "SUCCESS",
+                      text: "THANK YOU"))
+              .then((alertResult) {
+            double baggageprice = 0;
+            try {
+              baggageprice = double.parse(baggagePrice.text);
+            } catch (e) {
+              print(e);
+            }
+            if (baggageprice > 0) {
+              ArtSweetAlert.show(
+                      context: context,
+                      barrierDismissible: false,
+                      artDialogArgs: ArtDialogArgs(
+                          type: ArtSweetAlertType.info,
+                          title: "BAGGAGE RECEIPT",
+                          text: "CLICK OK TO PRINT"))
+                  .then((alertResult) {
+                printService.printBaggage(
+                    ticketNo,
+                    typeCard,
+                    double.parse(baggagePrice.text),
+                    double.parse(kmRun),
+                    '${stations[currentStationIndex]['stationName']}',
+                    '$selectedStationName',
+                    coopData['coopType'] != "Bus"
+                        ? "${torTrip[sessionBox['currentTripIndex']]['bus_no']}:${torTrip[sessionBox['currentTripIndex']]['plate_number']} "
+                        : "${torTrip[sessionBox['currentTripIndex']]['bus_no']}",
+                    stations[currentStationIndex][stationkm].toString(),
+                    toKM.toString(),
+                    "${torTrip[sessionBox['currentTripIndex']]['route']}");
+                // setState(() {
+                //   discount = 0.0;
+
+                //   passengerType = '';
+                //   typeofCards = '';
+                //   kmRun = '0';
+                //   baggagePrice.text = '';
+                //   isNfcScanOn = false;
+                //   price = 0;
+                //   subtotal = 0;
+                //   currentStationIndex = 0;
+                //   routeCode = '';
+                //   toKM = 0;
+                // });
+                // Navigator.of(context).pop();
+                // Navigator.of(context).pop();
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => TicketingPage()));
+              });
+            } else {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => TicketingPage()));
+            }
             // setState(() {
             //   discount = 0.0;
 
@@ -1034,37 +1024,7 @@ class _TicketingPageState extends State<TicketingPage> {
             // });
             // Navigator.of(context).pop();
             // Navigator.of(context).pop();
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => TicketingPage()));
-          } else {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => TicketingPage()));
-          }
-          // setState(() {
-          //   discount = 0.0;
-
-          //   passengerType = '';
-          //   typeofCards = '';
-          //   kmRun = '0';
-          //   baggagePrice.text = '';
-          //   isNfcScanOn = false;
-          //   price = 0;
-          //   subtotal = 0;
-          //   currentStationIndex = 0;
-          //   routeCode = '';
-          //   toKM = 0;
-          // });
-          // Navigator.of(context).pop();
-          // Navigator.of(context).pop();
-
-          // ArtSweetAlert.show(
-          //         context: context,
-          //         artDialogArgs: ArtDialogArgs(
-          //             type: ArtSweetAlertType.success,
-          //             title: "SUCCESS",
-          //             text: "THANK YOU"))
-          //     .then((alertResult) {
-          // });
+          });
         } else {
           setState(() {
             isNfcScanOn = true;

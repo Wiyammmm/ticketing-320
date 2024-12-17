@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class LoadingModal {
-  fetchServices fetchService = fetchServices();
   Map<String, dynamic> coopData = {};
 
   void showProcessing(BuildContext context) {
+    fetchServices fetchService = fetchServices();
     coopData = fetchService.fetchCoopData();
     showDialog(
         context: context,
@@ -61,7 +61,11 @@ class LoadingModal {
   }
 
   void showLoading(BuildContext context) {
-    coopData = fetchService.fetchCoopData();
+    fetchServices fetchService = fetchServices();
+    try {
+      coopData = fetchService.fetchCoopData();
+    } catch (e) {}
+
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -114,6 +118,7 @@ class LoadingModal {
   }
 
   void showSyncing(BuildContext context) {
+    fetchServices fetchService = fetchServices();
     coopData = fetchService.fetchCoopData();
     final myBox = Hive.box('myBox');
     final SESSION = myBox.get('SESSION');

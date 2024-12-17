@@ -265,9 +265,9 @@ class _EndofDayPageState extends State<EndofDayPage> {
                         await Future.delayed(duration);
                         if (isPrintDone) {
                           // bool isUpdateClosing = true;
-                          bool isUpdateClosing =
+                          String? isUpdateClosing =
                               await hiveService.updateClosing(true);
-                          if (isUpdateClosing) {
+                          if (isUpdateClosing == null) {
                             Navigator.of(context).pop();
                             Navigator.pushReplacement(
                                 context,
@@ -280,7 +280,7 @@ class _EndofDayPageState extends State<EndofDayPage> {
                                 artDialogArgs: ArtDialogArgs(
                                     type: ArtSweetAlertType.danger,
                                     title: "SOMETHING WENT WRONG",
-                                    text: "Please try again"));
+                                    text: "$isUpdateClosing"));
                           }
                           // _showDialogPrinting(
                           //     'Are you sure you would like to close\nthe transaction?',
@@ -393,9 +393,9 @@ class _EndofDayPageState extends State<EndofDayPage> {
                             Expanded(
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  bool isUpdateClosing =
+                                  String? isUpdateClosing =
                                       await hiveService.updateClosing(true);
-                                  if (isUpdateClosing) {
+                                  if (isUpdateClosing == null) {
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
@@ -407,7 +407,7 @@ class _EndofDayPageState extends State<EndofDayPage> {
                                         artDialogArgs: ArtDialogArgs(
                                             type: ArtSweetAlertType.danger,
                                             title: "SOMETHING WENT WRONG",
-                                            text: "Please try again"));
+                                            text: "$isUpdateClosing"));
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
